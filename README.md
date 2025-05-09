@@ -109,4 +109,4 @@ npm run dev
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines. 
+See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines.
