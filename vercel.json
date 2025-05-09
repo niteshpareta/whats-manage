@@ -3,6 +3,7 @@
   "public": true,
   "buildCommand": null,
   "outputDirectory": "build",
+  "protection": null,
   "routes": [
     {
       "src": "/static/(.*)",
