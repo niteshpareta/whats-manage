@@ -123,8 +123,8 @@ const LandingPage = () => {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
         </svg>
       ),
-      title: 'Professional Invoices',
-      description: 'Create GST-compliant invoices that look professional and reflect your brand identity.'
+      title: 'Error-Free Invoices',
+      description: 'Generate perfect GST-compliant invoices with consistent formatting and all required tax details.'
     },
     {
       icon: (
@@ -132,8 +132,8 @@ const LandingPage = () => {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2z" />
         </svg>
       ),
-      title: 'Payment Tracking',
-      description: 'Track payment status, record partial payments, and manage outstanding invoices efficiently.'
+      title: 'Faster Credit Recovery',
+      description: 'Eliminate delays caused by incorrect vendor submissions and accelerate your GST credit claims.'
     },
     {
       icon: (
@@ -142,7 +142,7 @@ const LandingPage = () => {
         </svg>
       ),
       title: 'Bulk Invoice Generation',
-      description: 'Upload CSV data to generate multiple invoices at once, saving time and reducing errors.'
+      description: 'Create multiple perfect invoices at once, saving time and ensuring consistency across vendors.'
     },
     {
       icon: (
@@ -150,8 +150,8 @@ const LandingPage = () => {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
         </svg>
       ),
-      title: 'Email Integration',
-      description: 'Send invoices directly to clients via email with customizable templates.'
+      title: 'Vendor Collaboration',
+      description: 'Send professional invoices to vendors for verification and signature, ensuring accuracy and compliance.'
     },
     {
       icon: (
@@ -159,8 +159,8 @@ const LandingPage = () => {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
         </svg>
       ),
-      title: 'Custom Tax Calculation',
-      description: 'Automatically calculate GST, CGST, SGST or IGST based on location and business rules.'
+      title: 'Simplified Compliance',
+      description: 'Maintain proper documentation for seamless tax audits with automated GST calculations.'
     },
     {
       icon: (
@@ -168,49 +168,49 @@ const LandingPage = () => {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
         </svg>
       ),
-      title: 'Business Settings',
-      description: 'Customize your invoice appearance with business logo, address, and contact details.'
+      title: 'Partner Management',
+      description: 'Store and organize all vendor details in one secure location for easy invoice generation.'
     }
   ];
 
   // Testimonials content
   const testimonials = [
     {
-      quote: "WhatsManage has streamlined our invoice process completely. What used to take hours now takes minutes.",
+      quote: "WhatsManage transformed how we handle vendor invoices. We now send them perfect GST documents to sign, eliminating the back-and-forth and errors.",
       author: "Priya Sharma",
       position: "Finance Manager, TechSolutions Ltd."
     },
     {
-      quote: "The bulk invoice feature is a game changer for our agency. We've reduced billing time by 75%.",
+      quote: "Our GST credit recovery process is now 70% faster. No more incorrect invoices from vendors - we create them ourselves and get them signed.",
       author: "Rahul Mehta",
-      position: "CEO, Digital Creatives"
+      position: "CFO, Digital Creatives"
     },
     {
-      quote: "The GST compliance features saved us from so many calculation errors. Highly recommended!",
+      quote: "The time saved on invoice corrections alone justified switching to WhatsManage. Now our vendors just verify and sign the perfect invoices we create.",
       author: "Ananya Patel",
-      position: "Accountant, Startup Ventures"
+      position: "Accounts Manager, Startup Ventures"
     }
   ];
 
   return (
     <>
       <Helmet>
-        <title>WhatsManage - Professional GST Invoice Generator for Indian Businesses</title>
-        <meta name="description" content="Create professional GST-compliant invoices in seconds. Track payments, generate bulk invoices, and manage your business finances with WhatsManage." />
-        <meta name="keywords" content="invoice generator, GST invoice, invoice software, business invoicing, payment tracking, bulk invoice" />
+        <title>WhatsManage - Eliminate Vendor Invoice Errors for Faster GST Credit</title>
+        <meta name="description" content="Stop waiting for incorrect vendor invoices after payment. WhatsManage lets you create perfect, GST-compliant invoices for vendors to sign, ensuring faster credit recovery and error-free compliance." />
+        <meta name="keywords" content="GST invoice management, vendor invoice automation, tax credit recovery, GST compliance software, error-free invoice generator, proactive invoice management" />
         
         {/* Open Graph / Facebook */}
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://whatsmange.com/" />
-        <meta property="og:title" content="WhatsManage - Professional GST Invoice Generator" />
-        <meta property="og:description" content="Create professional GST-compliant invoices in seconds. Track payments, generate bulk invoices, and manage your business finances." />
+        <meta property="og:title" content="WhatsManage - Eliminate Vendor Invoice Errors for Faster GST Credit" />
+        <meta property="og:description" content="Stop waiting for incorrect vendor invoices after payment. Create perfect, GST-compliant documents for vendors to sign, ensuring faster credit recovery." />
         <meta property="og:image" content="https://via.placeholder.com/1200x630?text=WhatsManage" />
         
         {/* Twitter */}
         <meta property="twitter:card" content="summary_large_image" />
         <meta property="twitter:url" content="https://whatsmange.com/" />
-        <meta property="twitter:title" content="WhatsManage - Professional GST Invoice Generator" />
-        <meta property="twitter:description" content="Create professional GST-compliant invoices in seconds. Track payments, generate bulk invoices, and manage your business finances." />
+        <meta property="twitter:title" content="WhatsManage - Eliminate Vendor Invoice Errors for Faster GST Credit" />
+        <meta property="twitter:description" content="Stop waiting for incorrect vendor invoices after payment. Create perfect, GST-compliant documents for vendors to sign, ensuring faster credit recovery." />
         <meta property="twitter:image" content="https://via.placeholder.com/1200x630?text=WhatsManage" />
         
         {/* Schema.org markup for Google */}
@@ -227,7 +227,7 @@ const LandingPage = () => {
                 "price": "0",
                 "priceCurrency": "INR"
               },
-              "description": "Create professional GST-compliant invoices in seconds. Track payments, generate bulk invoices, and manage your business finances."
+              "description": "Stop waiting for incorrect vendor invoices after payment. WhatsManage lets you create perfect, GST-compliant invoices for vendors to sign, ensuring faster credit recovery and error-free compliance."
             }
           `}
         </script>
@@ -239,23 +239,23 @@ const LandingPage = () => {
           <div className="flex flex-col md:flex-row items-center justify-between">
             <div className="md:w-1/2 md:pr-10 mb-10 md:mb-0 animate-fade-in">
               <h1 className="text-4xl md:text-5xl font-extrabold mb-4 leading-tight">
-                Manage Invoices <span className="text-yellow-300">Effortlessly</span>
+                Never Chase <span className="text-yellow-300">Incorrect Vendor Invoices</span> Again
               </h1>
               <p className="text-xl opacity-90 mb-8 max-w-lg">
-                Create professional GST-compliant invoices in seconds. Track payments, generate bulk invoices, and streamline your business finances.
+                Stop waiting for vendors to submit error-filled invoices after payment. Generate perfect GST-compliant documents for them to sign, accelerating your tax credit recovery.
               </p>
               <div className="flex flex-wrap gap-4">
                 <Link 
                   to="/create" 
                   className="px-6 py-3 bg-white text-indigo-600 font-bold rounded-lg shadow-lg hover:bg-gray-100 transition duration-300 transform hover:-translate-y-1"
                 >
-                  Get Started
+                  Create Perfect Invoice
                 </Link>
                 <Link 
-                  to="/bulk-invoice" 
+                  to="/partners" 
                   className="px-6 py-3 bg-transparent border-2 border-white text-white font-bold rounded-lg hover:bg-white hover:text-indigo-600 transition duration-300"
                 >
-                  Bulk Invoice
+                  Manage Vendors
                 </Link>
               </div>
             </div>
@@ -266,7 +266,7 @@ const LandingPage = () => {
                 </div>
               </div>
               <div className="absolute -bottom-4 -right-4 bg-yellow-300 rounded-lg p-4 shadow-lg z-20 transform hover:scale-105 transition-transform duration-300">
-                <p className="text-indigo-800 font-bold">GST Compliant</p>
+                <p className="text-indigo-800 font-bold">Vendor-Ready</p>
               </div>
             </div>
           </div>
@@ -282,9 +282,9 @@ const LandingPage = () => {
       <section className="py-16 md:py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Everything You Need for <span className="text-gradient">Invoice Management</span></h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Take Control of Your <span className="text-gradient">Vendor Invoice Process</span></h2>
             <p className="text-gray-600 max-w-2xl mx-auto text-lg">
-              WhatsManage provides a complete solution for creating, sending, and tracking invoices for your business.
+              WhatsManage flips the script on vendor invoice management - you create perfect invoices, vendors simply verify and sign.
             </p>
           </div>
           
@@ -309,33 +309,33 @@ const LandingPage = () => {
       <section className="py-16 md:py-24 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Simple <span className="text-gradient">3-Step Process</span></h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">How <span className="text-gradient">WhatsManage</span> Works</h2>
             <p className="text-gray-600 max-w-2xl mx-auto text-lg">
-              Get started with WhatsManage in just a few minutes
+              A smarter approach to vendor invoice management
             </p>
           </div>
           
           <div className="flex flex-col md:flex-row gap-8 md:gap-4 items-center justify-between">
             <div className="w-full md:w-1/3 text-center px-4">
               <div className="w-16 h-16 bg-indigo-600 text-white text-2xl font-bold rounded-full flex items-center justify-center mx-auto mb-4">1</div>
-              <h3 className="text-xl font-semibold mb-2">Configure Your Business</h3>
-              <p className="text-gray-600">Enter your business details, logo, and tax settings once, and they'll be applied to all your invoices.</p>
+              <h3 className="text-xl font-semibold mb-2">Create Partner Profiles</h3>
+              <p className="text-gray-600">Upload your vendor database or add partners individually with all their GST and banking details.</p>
             </div>
             
             <div className="hidden md:block w-16 h-0.5 bg-indigo-300"></div>
             
             <div className="w-full md:w-1/3 text-center px-4">
               <div className="w-16 h-16 bg-indigo-600 text-white text-2xl font-bold rounded-full flex items-center justify-center mx-auto mb-4">2</div>
-              <h3 className="text-xl font-semibold mb-2">Create Invoices</h3>
-              <p className="text-gray-600">Generate professional invoices instantly, individually or in bulk, with automatic tax calculation.</p>
+              <h3 className="text-xl font-semibold mb-2">Generate Perfect Invoices</h3>
+              <p className="text-gray-600">Create GST-compliant invoices with proper tax calculations for your vendors to approve.</p>
             </div>
             
             <div className="hidden md:block w-16 h-0.5 bg-indigo-300"></div>
             
             <div className="w-full md:w-1/3 text-center px-4">
               <div className="w-16 h-16 bg-indigo-600 text-white text-2xl font-bold rounded-full flex items-center justify-center mx-auto mb-4">3</div>
-              <h3 className="text-xl font-semibold mb-2">Send & Track</h3>
-              <p className="text-gray-600">Email invoices directly to clients and track payment status until completion.</p>
+              <h3 className="text-xl font-semibold mb-2">Track & Claim GST Credit</h3>
+              <p className="text-gray-600">Monitor invoice status, track payments, and easily claim your tax credits with error-free documentation.</p>
             </div>
           </div>
           
@@ -344,7 +344,7 @@ const LandingPage = () => {
               to="/create" 
               className="brand-button py-3 px-8 text-base"
             >
-              Try It Now
+              Start Creating Invoices
             </Link>
           </div>
         </div>
@@ -356,7 +356,7 @@ const LandingPage = () => {
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Trusted by <span className="text-gradient">Businesses</span></h2>
             <p className="text-gray-600 max-w-2xl mx-auto text-lg">
-              Here's what our users say about WhatsManage
+              Companies are eliminating vendor invoice headaches with WhatsManage
             </p>
           </div>
           
@@ -382,9 +382,9 @@ const LandingPage = () => {
       {/* CTA Section */}
       <section className="py-16 md:py-20 bg-gradient-to-r from-indigo-600 to-blue-500 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6">Start Creating Professional Invoices Today</h2>
+          <h2 className="text-3xl md:text-4xl font-bold mb-6">Eliminate Invoice Errors, Accelerate GST Credit Recovery</h2>
           <p className="text-xl opacity-90 mb-8 max-w-2xl mx-auto">
-            Join businesses across India who trust WhatsManage for their invoicing needs.
+            Join businesses across India who are taking control of their vendor invoice process.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <Link 
@@ -394,10 +394,10 @@ const LandingPage = () => {
               Get Started for Free
             </Link>
             <Link 
-              to="/bulk-invoice" 
+              to="/partners" 
               className="px-8 py-4 bg-transparent border-2 border-white text-white font-bold rounded-lg hover:bg-white hover:text-indigo-600 transition duration-300"
             >
-              Try Bulk Invoice
+              Manage Vendors
             </Link>
           </div>
         </div>
@@ -409,34 +409,34 @@ const LandingPage = () => {
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Frequently Asked Questions</h2>
             <p className="text-gray-600 max-w-2xl mx-auto text-lg">
-              Got questions? We've got answers.
+              Common questions about our vendor invoice management solution
             </p>
           </div>
           
           <div className="space-y-6">
             <div className="brand-card p-6">
-              <h3 className="text-xl font-semibold mb-2">Is WhatsManage free to use?</h3>
-              <p className="text-gray-600">Yes, WhatsManage is currently free to use with all features included.</p>
+              <h3 className="text-xl font-semibold mb-2">How does WhatsManage help with GST credit recovery?</h3>
+              <p className="text-gray-600">WhatsManage allows you to create perfect vendor invoices with all GST compliance details, eliminating errors that typically delay credit claims. Your vendors simply verify and sign these documents instead of creating error-filled invoices themselves.</p>
             </div>
             
             <div className="brand-card p-6">
-              <h3 className="text-xl font-semibold mb-2">Can I send invoices directly via email?</h3>
-              <p className="text-gray-600">Yes, you can configure your email settings and send invoices directly to your clients from within WhatsManage.</p>
+              <h3 className="text-xl font-semibold mb-2">Is WhatsManage free to use?</h3>
+              <p className="text-gray-600">Yes, WhatsManage is currently free to use with all features included. You can create and manage unlimited vendor invoices at no cost.</p>
+            </div>
+            
+            <div className="brand-card p-6">
+              <h3 className="text-xl font-semibold mb-2">How do vendors sign the invoices I create?</h3>
+              <p className="text-gray-600">You can send generated invoices to vendors via email for them to review, sign, and return. This ensures accuracy while still maintaining proper documentation for GST compliance.</p>
             </div>
             
             <div className="brand-card p-6">
               <h3 className="text-xl font-semibold mb-2">Is my data secure with WhatsManage?</h3>
-              <p className="text-gray-600">WhatsManage stores all your data locally on your device, so you maintain complete control over your business information.</p>
+              <p className="text-gray-600">WhatsManage stores all your data locally on your device, so you maintain complete control over your business and vendor information.</p>
             </div>
             
             <div className="brand-card p-6">
-              <h3 className="text-xl font-semibold mb-2">Can I customize invoice numbers?</h3>
-              <p className="text-gray-600">Yes, you can configure custom invoice number formats including prefixes, suffixes, and sequential numbering patterns.</p>
-            </div>
-            
-            <div className="brand-card p-6">
-              <h3 className="text-xl font-semibold mb-2">Does WhatsManage support different tax structures?</h3>
-              <p className="text-gray-600">Yes, WhatsManage supports both GST with CGST/SGST split and IGST calculation based on the client's location.</p>
+              <h3 className="text-xl font-semibold mb-2">Does WhatsManage support different GST tax structures?</h3>
+              <p className="text-gray-600">Yes, WhatsManage supports both GST with CGST/SGST split and IGST calculation based on the vendor's location, ensuring full tax compliance.</p>
             </div>
           </div>
         </div>
