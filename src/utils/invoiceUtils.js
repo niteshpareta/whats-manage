@@ -194,27 +194,27 @@ export function prepareInvoiceData(formData) {
       const businessSettings = JSON.parse(savedSettings);
       
       // Add client details to invoice data
-      data.CLIENT_NAME = businessSettings.companyName || 'Salter Technologies Private Limited';
-      data.CLIENT_GSTN = businessSettings.gstn || '29ABICS0071M1ZY';
-      data.CLIENT_ADDRESS_LINE1 = businessSettings.addressLine1 || 'T-9 Shirping Chirping Woods, Villament103, Tower-9, Haralur Road,';
-      data.CLIENT_ADDRESS_LINE2 = businessSettings.addressLine2 || 'Shubh Enclave, Ambalipura, Bengaluru,';
-      data.CLIENT_ADDRESS_LINE3 = businessSettings.addressLine3 || 'Bengaluru Urban, Karnataka, 560102';
+      data.CLIENT_NAME = businessSettings.companyName || 'Your Company Name';
+      data.CLIENT_GSTN = businessSettings.gstn || 'XXXXXXXXXXXX';
+      data.CLIENT_ADDRESS_LINE1 = businessSettings.addressLine1 || 'Your Address Line 1';
+      data.CLIENT_ADDRESS_LINE2 = businessSettings.addressLine2 || 'Your Address Line 2';
+      data.CLIENT_ADDRESS_LINE3 = businessSettings.addressLine3 || 'City, State, PIN';
     } else {
       // Set default values if no saved settings
-      data.CLIENT_NAME = 'Salter Technologies Private Limited';
-      data.CLIENT_GSTN = '29ABICS0071M1ZY';
-      data.CLIENT_ADDRESS_LINE1 = 'T-9 Shirping Chirping Woods, Villament103, Tower-9, Haralur Road,';
-      data.CLIENT_ADDRESS_LINE2 = 'Shubh Enclave, Ambalipura, Bengaluru,';
-      data.CLIENT_ADDRESS_LINE3 = 'Bengaluru Urban, Karnataka, 560102';
+      data.CLIENT_NAME = 'Your Company Name';
+      data.CLIENT_GSTN = 'XXXXXXXXXXXX';
+      data.CLIENT_ADDRESS_LINE1 = 'Your Address Line 1';
+      data.CLIENT_ADDRESS_LINE2 = 'Your Address Line 2';
+      data.CLIENT_ADDRESS_LINE3 = 'City, State, PIN';
     }
   } catch (error) {
     console.error('Error loading business settings:', error);
     // Set default values if there's an error
-    data.CLIENT_NAME = 'Salter Technologies Private Limited';
-    data.CLIENT_GSTN = '29ABICS0071M1ZY';
-    data.CLIENT_ADDRESS_LINE1 = 'T-9 Shirping Chirping Woods, Villament103, Tower-9, Haralur Road,';
-    data.CLIENT_ADDRESS_LINE2 = 'Shubh Enclave, Ambalipura, Bengaluru,';
-    data.CLIENT_ADDRESS_LINE3 = 'Bengaluru Urban, Karnataka, 560102';
+    data.CLIENT_NAME = 'Your Company Name';
+    data.CLIENT_GSTN = 'XXXXXXXXXXXX';
+    data.CLIENT_ADDRESS_LINE1 = 'Your Address Line 1';
+    data.CLIENT_ADDRESS_LINE2 = 'Your Address Line 2';
+    data.CLIENT_ADDRESS_LINE3 = 'City, State, PIN';
   }
   
   // Check if we have payment information for this invoice
@@ -338,7 +338,7 @@ export const generateReferenceNumber = (partnerId, serviceMonth, serviceYear) =>
   const year = serviceYear.toString().slice(-2);
   
   return `${partnerId}-${month}-${year}`;
-};
+}; 
 
 /**
  * Generate a new invoice number based on business settings
