@@ -2,7 +2,7 @@
   "version": 2,
   "public": true,
   "cleanUrls": true,
-  "buildCommand": false,
+  "buildCommand": null,
   "outputDirectory": "build",
   "routes": [
     {
