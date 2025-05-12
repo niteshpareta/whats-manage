@@ -9,6 +9,8 @@ const Partners = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [uploadStatus, setUploadStatus] = useState(null);
   const [showAddForm, setShowAddForm] = useState(false);
+  const [showEditForm, setShowEditForm] = useState(false);
+  const [editingPartner, setEditingPartner] = useState(null);
   const [newPartner, setNewPartner] = useState({
     partner_name: '',
     account_id: '',
@@ -98,10 +100,7 @@ const Partners = () => {
           for (let j = 0; j < headers.length; j++) {
             // Clean header names to avoid issues
             const header = headers[j].trim();
-            // Skip account_id as we'll generate it
-            if (header !== 'account_id') {
-              obj[header] = currentLine[j];
-            }
+            obj[header] = currentLine[j];
           }
           
           // Validate required fields
@@ -110,13 +109,16 @@ const Partners = () => {
             continue;
           }
           
+          // GST is required
           if (!obj.gst_no || !obj.gst_no.trim()) {
             invalidRows.push(`Row ${i}: Missing GST Number`);
             continue;
           }
           
-          // Generate a unique ID for the partner
-          obj.account_id = generateUniqueId();
+          // Generate a unique ID only if account_id is not provided or is empty
+          if (!obj.account_id || !obj.account_id.trim()) {
+            obj.account_id = generateUniqueId();
+          }
           
           newPartners.push(obj);
         }
@@ -125,6 +127,13 @@ const Partners = () => {
         const existingPartners = [...partners];
         
         // Merge the new and existing data
+        // Create a set of existing account IDs to avoid duplicates
+        const existingAccountIds = new Set(
+          existingPartners
+            .filter(p => p.account_id)
+            .map(p => p.account_id)
+        );
+        
         // Create a set of existing GST numbers to avoid duplicates
         const existingGstNumbers = new Set(
           existingPartners
@@ -132,10 +141,19 @@ const Partners = () => {
             .map(p => p.gst_no.toLowerCase()) // Normalize to lowercase for case-insensitive comparison
         );
         
-        // Filter out duplicates and append new partners (based on GST number)
+        // Filter out duplicates and append new partners (based on account_id or GST number)
         const partnersToAdd = newPartners.filter(newP => {
-          // If the partner has no GST number or the GST number is not in the set of existing GST numbers
-          return !existingGstNumbers.has(newP.gst_no.toLowerCase());
+          // Check if this partner's account_id already exists
+          if (newP.account_id && existingAccountIds.has(newP.account_id)) {
+            return false;
+          }
+          
+          // If GST exists, check if it's a duplicate
+          if (newP.gst_no && existingGstNumbers.has(newP.gst_no.toLowerCase())) {
+            return false;
+          }
+          
+          return true;
         });
         
         const combinedPartners = [...existingPartners, ...partnersToAdd];
@@ -155,7 +173,7 @@ const Partners = () => {
         }
         
         if (newPartners.length - partnersToAdd.length > 0) {
-          statusMessage += ` (${newPartners.length - partnersToAdd.length} duplicates with same GST number skipped)`;
+          statusMessage += ` (${newPartners.length - partnersToAdd.length} partners with duplicate account ID or GST number skipped)`;
         }
         
         if (invalidRows.length > 0) {
@@ -193,21 +211,21 @@ const Partners = () => {
   };
 
   const downloadSampleCSV = () => {
-    // Updated sample CSV that doesn't include account_id but emphasizes required GST
-    const csvHeaders = "partner_name,partner_phone,partner_email,bank_account_number,bank_accountifsccode,gst_no";
+    // Updated sample CSV that includes account_id
+    const csvHeaders = "partner_name,account_id,partner_phone,partner_email,bank_account_number,bank_accountifsccode,gst_no";
     const sampleData = [
-      "Example Partner Ltd,9876543210,contact@example.com,12345678901,HDFC0000123,27ABCDE1234F1Z5",
-      "Test Company,9876543211,info@testcompany.com,98765432101,SBIN0001234,29FGHIJ5678K1Z7"
+      "Example Partner Ltd,p_sample123,9876543210,contact@example.com,12345678901,HDFC0000123,27ABCDE1234F1Z5",
+      "Test Company,,9876543211,info@testcompany.com,98765432101,SBIN0001234,29FGHIJ5678K1Z7"
     ].join('\n');
     
     const csvContent = `${csvHeaders}\n${sampleData}`;
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
     
-    // Also show a message about required fields when downloading
+    // Update the message to mention account_id is optional and GST is required
     setUploadStatus({ 
       success: true, 
-      message: 'Sample CSV downloaded. Note: Partner Name and GST Number are required fields.'
+      message: 'Sample CSV downloaded. Note: Partner Name and GST Number are required fields. You can provide account_id or leave it blank to auto-generate.'
     });
     
     const link = document.createElement('a');
@@ -243,7 +261,7 @@ const Partners = () => {
       return;
     }
 
-    // Validate GST number is required
+    // GST number is required
     if (!newPartner.gst_no.trim()) {
       setUploadStatus({
         success: false,
@@ -290,6 +308,74 @@ const Partners = () => {
 
   const toggleAddForm = () => {
     setShowAddForm(!showAddForm);
+  };
+
+  const handleEditPartner = (partner) => {
+    setEditingPartner({...partner});
+    setShowEditForm(true);
+  };
+
+  const handleEditPartnerChange = (e) => {
+    const { name, value } = e.target;
+    setEditingPartner(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleEditPartnerSubmit = (e) => {
+    e.preventDefault();
+    
+    // Update partners array
+    const updatedPartners = partners.map(partner => 
+      partner.account_id === editingPartner.account_id ? editingPartner : partner
+    );
+    
+    // Save to localStorage
+    savePartnerData(updatedPartners);
+    
+    // Update state
+    setPartners(updatedPartners);
+    setShowEditForm(false);
+    setEditingPartner(null);
+    
+    setUploadStatus({ 
+      success: true, 
+      message: 'Partner updated successfully' 
+    });
+    
+    // Hide success message after 3 seconds
+    setTimeout(() => {
+      setUploadStatus(null);
+    }, 3000);
+  };
+
+  const handleCancelEdit = () => {
+    setShowEditForm(false);
+    setEditingPartner(null);
+  };
+
+  const handleDeletePartner = (partnerId) => {
+    if (window.confirm('Are you sure you want to delete this partner? This action cannot be undone.')) {
+      // Filter out the partner with the given ID
+      const updatedPartners = partners.filter(partner => partner.account_id !== partnerId);
+      
+      // Save to localStorage
+      savePartnerData(updatedPartners);
+      
+      // Update state
+      setPartners(updatedPartners);
+      
+      setUploadStatus({ 
+        success: true, 
+        message: 'Partner deleted successfully' 
+      });
+      
+      // Hide success message after 3 seconds
+      setTimeout(() => {
+        setUploadStatus(null);
+      }, 3000);
+    }
   };
 
   return (
@@ -339,20 +425,20 @@ const Partners = () => {
                   Download Sample
                 </button>
 
-                <div className="relative">
-                  <input
-                    type="file"
-                    ref={fileInputRef}
-                    onChange={handleFileUpload}
-                    accept=".csv"
-                    className="hidden"
-                  />
-                  <button
-                    onClick={handleUploadClick}
+              <div className="relative">
+                <input
+                  type="file"
+                  ref={fileInputRef}
+                  onChange={handleFileUpload}
+                  accept=".csv"
+                  className="hidden"
+                />
+                <button
+                  onClick={handleUploadClick}
                     className="brand-button-secondary flex items-center justify-center whitespace-nowrap"
-                  >
+                >
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1.5" viewBox="0 0 20 20" fill="currentColor">
-                      <path fillRule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM6.293 6.707a1 1 0 010-1.414l3-3a1 1 0 011.414 0l3 3a1 1 0 01-1.414 1.414L11 5.414V13a1 1 0 11-2 0V5.414L7.707 6.707a1 1 0 01-1.414 0z" clipRule="evenodd" />
+                    <path fillRule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM6.293 6.707a1 1 0 010-1.414l3-3a1 1 0 011.414 0l3 3a1 1 0 01-1.414 1.414L11 5.414V13a1 1 0 11-2 0V5.414L7.707 6.707a1 1 0 01-1.414 0z" clipRule="evenodd" />
                     </svg>
                     Upload CSV
                   </button>
@@ -508,6 +594,130 @@ const Partners = () => {
             </div>
           )}
 
+          {showEditForm && editingPartner && (
+            <div className="mb-6 p-4 border border-gray-200 rounded-md bg-gray-50">
+              <h3 className="text-lg font-medium text-gray-900 mb-4">Edit Partner</h3>
+              <form onSubmit={handleEditPartnerSubmit}>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label htmlFor="partner_name" className="block text-sm font-medium text-gray-700">
+                      Partner Name
+                    </label>
+                    <input
+                      type="text"
+                      name="partner_name"
+                      id="partner_name"
+                      value={editingPartner.partner_name}
+                      onChange={handleEditPartnerChange}
+                      className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
+                    />
+                  </div>
+                  
+                  <div>
+                    <label htmlFor="account_id" className="block text-sm font-medium text-gray-700">
+                      Account ID (read-only)
+                    </label>
+                    <input
+                      type="text"
+                      name="account_id"
+                      id="account_id"
+                      value={editingPartner.account_id}
+                      readOnly
+                      className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 bg-gray-100 sm:text-sm"
+                    />
+                  </div>
+                  
+                  <div>
+                    <label htmlFor="gst_no" className="block text-sm font-medium text-gray-700">
+                      GST Number <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      name="gst_no"
+                      id="gst_no"
+                      required
+                      value={editingPartner.gst_no}
+                      onChange={handleEditPartnerChange}
+                      className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
+                    />
+                  </div>
+                  
+                  <div>
+                    <label htmlFor="partner_phone" className="block text-sm font-medium text-gray-700">
+                      Phone Number (optional)
+                    </label>
+                    <input
+                      type="text"
+                      name="partner_phone"
+                      id="partner_phone"
+                      value={editingPartner.partner_phone}
+                      onChange={handleEditPartnerChange}
+                      className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
+                    />
+                  </div>
+                  
+                  <div>
+                    <label htmlFor="partner_email" className="block text-sm font-medium text-gray-700">
+                      Email (optional)
+                    </label>
+                    <input
+                      type="email"
+                      name="partner_email"
+                      id="partner_email"
+                      value={editingPartner.partner_email}
+                      onChange={handleEditPartnerChange}
+                      className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
+                    />
+                  </div>
+                  
+                  <div>
+                    <label htmlFor="bank_account_number" className="block text-sm font-medium text-gray-700">
+                      Bank Account Number (optional)
+                    </label>
+                    <input
+                      type="text"
+                      name="bank_account_number"
+                      id="bank_account_number"
+                      value={editingPartner.bank_account_number}
+                      onChange={handleEditPartnerChange}
+                      className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
+                    />
+                  </div>
+                  
+                  <div>
+                    <label htmlFor="bank_accountifsccode" className="block text-sm font-medium text-gray-700">
+                      Bank IFSC Code (optional)
+                    </label>
+                    <input
+                      type="text"
+                      name="bank_accountifsccode"
+                      id="bank_accountifsccode"
+                      value={editingPartner.bank_accountifsccode}
+                      onChange={handleEditPartnerChange}
+                      className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
+                    />
+                  </div>
+                </div>
+                
+                <div className="mt-4 flex justify-end space-x-3">
+                  <button
+                    type="button"
+                    onClick={handleCancelEdit}
+                    className="brand-button-secondary"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className="brand-button"
+                  >
+                    Save Changes
+                  </button>
+                </div>
+              </form>
+            </div>
+          )}
+
           {isLoading ? (
             <div className="text-center py-10">
               <svg className="animate-spin h-10 w-10 text-primary mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -592,12 +802,35 @@ const Partners = () => {
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm">
-                        <Link 
-                          to={`/?partnerId=${partner.account_id}`}
-                          className="text-primary hover:text-primary-dark"
-                        >
-                          Generate Invoice
-                        </Link>
+                        <div className="flex space-x-3">
+                          <Link 
+                            to={`/?partnerId=${partner.account_id}`}
+                            className="text-primary hover:text-primary-dark flex items-center"
+                          >
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                            Generate Invoice
+                          </Link>
+                          <button 
+                            onClick={() => handleEditPartner(partner)}
+                            className="text-blue-600 hover:text-blue-800 flex items-center"
+                          >
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                            </svg>
+                            Edit
+                          </button>
+                          <button 
+                            onClick={() => handleDeletePartner(partner.account_id)}
+                            className="text-red-600 hover:text-red-800 flex items-center"
+                          >
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                            </svg>
+                            Delete
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   ))}
@@ -622,6 +855,7 @@ const Partners = () => {
               <li>Download a sample CSV template</li>
               <li>Upload a CSV file with partner data</li>
               <li>Add new partners directly through the form</li>
+              <li>Edit or delete existing partner information</li>
               <li>Click "Generate Invoice" to create an invoice for a specific partner</li>
             </ul>
             <p className="mt-4">Partner data is stored in your browser's local storage, so it will persist between visits to this page.</p>
